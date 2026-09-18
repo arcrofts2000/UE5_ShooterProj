@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:302e4aec3b7fd1a36e34e9b24f9445316b213fb301b588c420526a5944706905
-size 353
+// Copyright - Adam Crofts
+
+using UnrealBuildTool;
+using System.Collections.Generic;
+
+public class UE5_ShooterProjTarget : TargetRules
+{
+	public UE5_ShooterProjTarget(TargetInfo Target) : base(Target)
+	{
+		Type = TargetType.Game;
+		DefaultBuildSettings = BuildSettingsVersion.V6;
+
+		ExtraModuleNames.AddRange( new string[] { "UE5_ShooterProj" } );
+	}
+}
