@@ -1,5 +1,5 @@
 // Copyright - Adam Crofts
-#include "VFCharacterBase.h"
+#include "Character/VFCharacterBase.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 
