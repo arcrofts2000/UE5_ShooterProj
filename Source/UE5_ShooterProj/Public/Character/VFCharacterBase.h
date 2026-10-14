@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "VFCharacterBase.generated.h"
 
+class UVFCombatComponent;
 class USpringArmComponent;
 class UCameraComponent;
 
@@ -29,6 +30,11 @@ public:
 
 
 private:
+
+	// Components
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UVFCombatComponent> CombatComp;
 
 	// First Person arms
 	UPROPERTY(VisibleAnywhere, Category = "Components")
