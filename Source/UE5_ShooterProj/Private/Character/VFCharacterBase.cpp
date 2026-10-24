@@ -2,6 +2,8 @@
 #include "Character/VFCharacterBase.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/VFCombatComponent.h"
+#include "EnhancedInputComponent.h"
 
 
 AVFCharacterBase::AVFCharacterBase()
@@ -35,6 +37,9 @@ AVFCharacterBase::AVFCharacterBase()
 	GetMesh()->bOnlyOwnerSee = false;
 	GetMesh()->bOwnerNoSee = true;
 	GetMesh()->bReceivesDecals = false;
+
+	CombatComp = CreateDefaultSubobject<UVFCombatComponent>("CombatComp");
+	CombatComp->SetIsReplicated(true);
 }
 
 void AVFCharacterBase::BeginPlay()
@@ -53,5 +58,48 @@ void AVFCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	UEnhancedInputComponent* InputComp = CastChecked<UEnhancedInputComponent>(PlayerInputComponent);
+
+	InputComp->BindAction(CycleWeaponAction, ETriggerEvent::Started, this, &AVFCharacterBase::Input_CycleWeapon);
+
+	InputComp->BindAction(FireWeaponAction, ETriggerEvent::Started, this, &AVFCharacterBase::Input_FireWeaponPressed);
+	InputComp->BindAction(FireWeaponAction, ETriggerEvent::Completed, this, &AVFCharacterBase::Input_FireWeaponReleased);
+
+	InputComp->BindAction(ReloadWeaponAction, ETriggerEvent::Started, this, &AVFCharacterBase::Input_ReloadWeapon);
+
+	InputComp->BindAction(AimWeaponAction, ETriggerEvent::Started, this, &AVFCharacterBase::Input_AimWeaponPressed);
+	InputComp->BindAction(AimWeaponAction, ETriggerEvent::Completed, this, &AVFCharacterBase::Input_AimWeaponReleased);
+}
+
+
+
+void AVFCharacterBase::Input_CycleWeapon()
+{
+	CombatComp->InitCycleWeapon();
+}
+
+void AVFCharacterBase::Input_FireWeaponPressed()
+{
+	CombatComp->InitFireWeaponPressed();
+}
+
+void AVFCharacterBase::Input_FireWeaponReleased()
+{
+	CombatComp->InitFireWeaponReleased();
+}
+
+void AVFCharacterBase::Input_ReloadWeapon()
+{
+	CombatComp->InitReloadWeapon();
+}
+
+void AVFCharacterBase::Input_AimWeaponPressed()
+{
+	CombatComp->InitAimPressed();
+}
+
+void AVFCharacterBase::Input_AimWeaponReleased()
+{
+	CombatComp->InitAimReleased();
 }
 
